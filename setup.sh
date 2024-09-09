@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export INFLUXDB_PASSWORD=
+export INFLUX_INIT_ADMIN_TOKEN=
