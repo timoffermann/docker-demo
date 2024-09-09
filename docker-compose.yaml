@@ -29,26 +29,28 @@ services:
       - ./influxdb/data:/var/lib/influxdb2
       - ./influxdb/config:/etc/influxdb
     environment:
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$TOKEN
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$INFLUX_INIT_ADMIN_TOKEN
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD=$INFLUXDB_PASSWORD
       - DOCKER_INFLUXDB_INIT_ORG=Siemens AG
       - DOCKER_INFLUXDB_INIT_BUCKET=demo
 
-#  telegraf:
-#    container_name: telegraf
-#    image: telegraf:1.31.3
-#    networks:
-#      - influx-network
-#    volumes:
-#      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
-#    environment:
-#      - INFLUXDB_URL=http://influxdb:8086
-#      - INFLUXDB_TOKEN=$TOKEN
-#      - INFLUXDB_ORG=Siemens AG
-#      - INFLUXDB_BUCKET=demo
-#      - INFLUXDB_USERNAME=admin
-#      - INFLUXDB_PASSWORD=$INFLUXDB_PASSWORD
-#    depends_on:
-#      - influxdb
+  telegraf:
+    container_name: telegraf
+    image: telegraf:1.31.3
+    networks:
+      - influx-network
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    environment:
+      - INFLUXDB_URL=http://influxdb.influx-network:8086
+      - INFLUXDB_TOKEN=$INFLUX_INIT_ADMIN_TOKEN
+      - INFLUXDB_ORG=Siemens AG
+      - INFLUXDB_BUCKET=demo
+      - KAFKA_USER=$KAFKA_USER
+      - KAFKA_PASSWORD=$KAFKA_PASSWORD
+      - KAFKA_BROKER1=$KAFKA_BROKER1
+      - KAFKA_BROKER2=$KAFKA_BROKER2
+    depends_on:
+      - influxdb

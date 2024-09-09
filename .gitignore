@@ -3,4 +3,3 @@ grafana/data/*
 grafana/etc/auth.ini
 influxdb/data/*
 !influxdb/data/.info
-telegraf/*
